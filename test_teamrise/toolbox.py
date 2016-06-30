@@ -1,4 +1,4 @@
-
+from graphviz import Digraph
 from openpyxl import load_workbook
 
 
@@ -81,9 +81,26 @@ class Tree():
         for root in self.roots :
             for deep_children in self.iter_over(root) :
                 yield deep_children
-                
-                
-                
+    
+    def to_graph(self, function=lambda x:x['id'] ):
+        '''create a graph with graphviz package
+        function is applied to each node to choose what to write
+        '''
+        out = Digraph()
+        for root in self.roots :
+            self.add_to_graph(out, root, function)
+        return out
+    
+    def add_to_graph(self, graph, element, function, parent=None):
+        '''add element and all its children to the graph'''
+        graph.node(str(element['id']), str(function(element)))
+        if parent :
+            graph.edge(str(parent['id']), str(element['id']))
+        if self.key in element :
+            for children in element[self.key]:
+                self.add_to_graph(graph, children, function, parent=element)
+            
+   
                 
                 
                 
