@@ -20,6 +20,12 @@ def extract(worksheet):
     return fields,values
 
 
+def flat_graph(list_of_elements, function = lambda x: x['id']):
+    '''plot a graph with no link between elements'''
+    out = Digraph()
+    for element in list_of_elements :
+        out.node(str(element['id']), str(function(element)))
+    return out
 
 
 class Tree():
@@ -30,10 +36,12 @@ class Tree():
     and parent_id to connect an element to its parent, if parent_id==None the element in a root
     '''
     
-    def __init__(self, elements = [], key_word = 'childs'):
-        self.roots = []
-        self.store_nodes = []
+    def __init__(self, elements = [], key_word = 'childs', roots=[]):
+        self.roots = roots
         self.key = key_word
+        self.store_nodes = []
+        for element in self :
+            self.store_nodes.append(element['id'])
         self.fill_with(elements)
     
     def fill_some(self, elements):
@@ -100,7 +108,13 @@ class Tree():
             for children in element[self.key]:
                 self.add_to_graph(graph, children, function, parent=element)
             
-   
+    def filter_at_root(self, root_filter):
+        '''send a new Objective_Tree with only the objectives of the team team'''
+        return Tree(roots = [r for r in self.roots if root_filter(r)])
+    
+    def filter_at_elements(self, personal_filter):
+        '''return a list of elements of level N'''
+        return [e for e in self if personal_filter(e)] 
                 
                 
                 
@@ -143,4 +157,5 @@ class Objective_Tree(Tree):
             id_team=team_ids[root['owner_id']]
             self.fill_element_level_and_team(root, 0, id_team)
             
-            
+
+        
