@@ -88,11 +88,13 @@ class Tree():
                 
                 
 class Objective_Tree(Tree):
+    '''Tree specialised for the test'''
 
     
     #children progress computation
     
     def children_progress_calculation(self, element):
+        '''compute the children progress of element (if it has children)'''
         if self.key in element :
             cp = []
             for children in element[self.key]:
@@ -101,6 +103,7 @@ class Objective_Tree(Tree):
 
 
     def compute_children_progress(self):
+        '''compute children progress for all elements'''
         for e in self :
             self.children_progress_calculation(e)
         
