@@ -81,3 +81,46 @@ class Tree():
         for root in self.roots :
             for deep_children in self.iter_over(root) :
                 yield deep_children
+                
+                
+                
+                
+                
+                
+class Objective_Tree(Tree):
+
+    
+    #children progress computation
+    
+    def children_progress_calculation(self, element):
+        if self.key in element :
+            cp = []
+            for children in element[self.key]:
+                cp.append(children['progress_value']*100/children['progress_target']) #percentage
+            element['children_progress'] = sum(cp)/len(cp) #average
+
+
+    def compute_children_progress(self):
+        for e in self :
+            self.children_progress_calculation(e)
+        
+        
+    #level and team computation  
+            
+    def fill_element_level_and_team(self, element, level, id_team):
+        '''fill the levele and id_team of element, and call the function for the children'''
+        element['level'] = level
+        element['team_id'] = id_team
+        if self.key in element :
+            for children in element[self.key]:
+                self.fill_element_level_and_team(children, level+1, id_team)
+
+
+
+    def fill_level_and_team(self, team_ids):
+        '''fill all level and id_team fields based on the team_ids correspondance'''
+        for root in self.roots :
+            id_team=team_ids[root['owner_id']]
+            self.fill_element_level_and_team(root, 0, id_team)
+            
+            
