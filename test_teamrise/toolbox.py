@@ -151,11 +151,17 @@ class Objective_Tree(Tree):
 
 
 
-    def fill_level_and_team(self, team_ids):
+    def fill_level_and_team(self, team_ids, user_names = None):
         '''fill all level and id_team fields based on the team_ids correspondance'''
         for root in self.roots :
             id_team=team_ids[root['owner_id']]
             self.fill_element_level_and_team(root, 0, id_team)
+        if user_names :#it s optional
+            self.fill_names(user_names)
             
-
+    #names 
+           
+    def fill_names(self, user_names):
+        for element in self :
+            element['owner_name'] = user_names[element['owner_id']]
         
