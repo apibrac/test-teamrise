@@ -1,3 +1,4 @@
+every
 frequent
 intermittent
 periodic

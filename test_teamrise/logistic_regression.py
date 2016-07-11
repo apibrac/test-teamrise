@@ -90,7 +90,7 @@ class Objective_Analyzer():
                 self.parameters[word] = vector_addition(self.parameters[word], vector)
             else :
                 self.parameters[word] = vector
-    def add_to_guess(self, guess_conclusions, **kwargs):
+    def add_to_guess(self, guess_conclusions, word_files = [], **kwargs):
         '''Add new conclusions in a cluster (exclusive).
         Additional arguments are stored in the cluster dictionary, can be used later for different kind of clusters?
         Return the rank (that can be used to add words).
@@ -98,5 +98,8 @@ class Objective_Analyzer():
         rank = len(self.conclusions)
         self.conclusions+=guess_conclusions
         self.subgroups.append(dict(conclusions = [rank + i  for i in range(len(guess_conclusions))], **kwargs))
+        for i, file in enumerate(word_files): #optional: to start with files of particular words
+            with open(file, 'r') as file:
+                words = file.read().split('\n')
+                self.add_words_with_weight(words, [1], rank + i)
         return rank
-        
