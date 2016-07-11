@@ -5,12 +5,14 @@ from test_teamrise.toolbox import extract, Objective_Tree, flat_graph
 from openpyxl import load_workbook
 
 def extract_team_id(user_list):
+    '''Extract id of users'''
     out = dict()
     for user in user_list :
         out[user['id']] = user['team_id']
     return out
 
 def extract_user_names(user_list):
+    '''Extract name of users'''
     out = dict()
     for user in user_list :
         out[user['id']] = user['name']
@@ -18,12 +20,14 @@ def extract_user_names(user_list):
 
 
 def load_dataset(name):
+    '''Read the users and objectives tables of dataset'''
     wb = load_workbook(name)
     _, u = extract(wb["users"])
     _, o = extract(wb["objectives"])
     return o, u
 
 def create_tree(objectives, users):
+    '''Create and fill the Objective tree from objectives and users'''
     out = Objective_Tree(objectives)
     out.compute_children_progress()
     out.fill_level_and_team(extract_team_id(users), extract_user_names(users))
@@ -31,10 +35,14 @@ def create_tree(objectives, users):
 
 
 def classic_presentation(obj):
+    '''Function for a classic presentation of objectives.'''
     return '{0:.0f} : {1}\n {2:.0f}/{3:.0f} ({4})'.format(obj['id'], obj['title'],
                                                           obj['progress_value'], obj['progress_target'], obj['owner_name'])
 
 class Data_reader():
+    '''Read the objectives and users datasets and create the corresponding tree.
+    'display' display the tree according to several filters
+    '''
     def __init__(self, dataset_name):
         self.tree = create_tree(*load_dataset(dataset_name))
     def display(self, team='all', level='all', minimum_progress='all', presentation = classic_presentation):

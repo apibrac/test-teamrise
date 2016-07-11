@@ -162,6 +162,7 @@ class Objective_Tree(Tree):
     #names 
            
     def fill_names(self, user_names):
+        '''Fill the name of the objective user'''
         for element in self :
             element['owner_name'] = user_names[element['owner_id']]
         
