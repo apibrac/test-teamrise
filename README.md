@@ -12,7 +12,6 @@ docs/ rassemble les diagrammes sur l'organisation des différentes parties du fr
 
 data/ rassemble les différentes données utilisées : la base de données et les différents fichiers léxicaux pour l'apprentissage.
 
-test_teamrise/ comprend les différents modules développés pour répondre au problème : -toolbox.py contient les différentes classes et fonctions pour lire, organiser et représenter une base de donnée ; -display_data.py contient la classe 'Data_reader' développée pour lire la base de données d'objectif et pour répondre au Test1 ;
+test_teamrise/ comprend les différents modules développés pour répondre au problème : -toolbox.py contient les différentes classes et fonctions pour lire, organiser et représenter une base de donnée ; -display_data.py contient la classe 'Data_reader' développée pour lire la base de données d'objectif et pour répondre au Test1 ; -logistic_regression réimplémente la régression logistique en nous permettant de calibrer directement les paramètres
 
 
-### Travail non fini
